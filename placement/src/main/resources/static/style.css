@@ -1,0 +1,557 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fc;
+    color: #172033;
+    line-height: 1.6;
+}
+
+.navbar {
+    min-height: 72px;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 800;
+    color: #2457d6;
+}
+
+nav {
+    display: flex;
+    gap: 26px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #344054;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #2457d6;
+}
+
+.hero {
+    padding: 85px 8% 95px;
+    text-align: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #173b91, #3878ed);
+}
+
+.tagline {
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.2;
+    margin-bottom: 22px;
+}
+
+.description {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: #e7edff;
+    font-size: 17px;
+}
+
+.primary-button,
+.portal-button {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-weight: 700;
+}
+
+.primary-button {
+    background: #ffffff;
+    color: #2457d6;
+}
+
+.primary-button:hover {
+    background: #e8efff;
+}
+
+.portals {
+    padding: 65px 8%;
+    text-align: center;
+}
+
+.portals h2,
+.about h2 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.section-description {
+    color: #667085;
+    margin-bottom: 32px;
+}
+
+.portal-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.portal-card {
+    background: #ffffff;
+    border: 1px solid #e4e9f2;
+    border-radius: 14px;
+    padding: 30px 22px;
+    box-shadow: 0 8px 25px rgba(20, 40, 80, 0.06);
+}
+
+.portal-icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.portal-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.portal-card p {
+    color: #667085;
+    min-height: 76px;
+    margin-bottom: 20px;
+}
+
+.portal-button {
+    background: #2457d6;
+    color: #ffffff;
+}
+
+.portal-button:hover {
+    background: #173b91;
+}
+
+.about {
+    background: #ffffff;
+    padding: 50px 8%;
+    text-align: center;
+}
+
+.about p {
+    max-width: 800px;
+    margin: 12px auto 0;
+    color: #667085;
+}
+
+footer {
+    padding: 22px;
+    text-align: center;
+    background: #172033;
+    color: #ffffff;
+}
+
+@media (max-width: 760px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    nav {
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 65px 6%;
+    }
+
+    .portal-container {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-card p {
+        min-height: auto;
+    }
+}
+
+/* ==========================================
+   SMART PLACEMENT - PREMIUM STUDENT PORTAL
+   ========================================== */
+
+:root {
+    --portal-blue: #4568f5;
+    --portal-dark: #101a36;
+    --portal-muted: #7b849d;
+    --portal-border: #e7eaf3;
+    --portal-bg: #f4f6fc;
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 10% 10%, #e3eaff 0%, transparent 34%),
+        radial-gradient(ellipse at 90% 70%, #e8e6ff 0%, transparent 35%),
+        var(--portal-bg);
+    color: #17213c;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Navigation */
+
+.navbar {
+    min-height: 76px;
+    padding: 16px 7%;
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid rgba(222, 228, 244, 0.8);
+    box-shadow: 0 5px 25px rgba(32, 49, 96, 0.04);
+    backdrop-filter: blur(16px);
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 850;
+    letter-spacing: -1px;
+    color: #243ca7;
+}
+
+.navbar nav a {
+    font-size: 14px;
+    padding: 9px 13px;
+    border-radius: 8px;
+    transition: 0.25s ease;
+}
+
+.navbar nav a:hover {
+    background: #edf1ff;
+    color: #3455e6;
+}
+
+/* Main portal area */
+
+.auth-shell {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 58px 25px 80px;
+}
+
+.auth-title {
+    text-align: center;
+    margin: 0 auto 38px;
+}
+
+.auth-title::before {
+    content: "YOUR CAREER STARTS HERE";
+    display: inline-block;
+    padding: 8px 15px;
+    margin-bottom: 16px;
+    border: 1px solid #dbe3ff;
+    border-radius: 100px;
+    color: #3d58cf;
+    background: rgba(255, 255, 255, 0.75);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.auth-title h1 {
+    margin-bottom: 12px;
+    font-size: clamp(30px, 5vw, 43px);
+    font-weight: 850;
+    letter-spacing: -1.5px;
+    line-height: 1.2;
+    color: #152044;
+}
+
+.auth-title p {
+    color: #737e99;
+    font-size: 16px;
+}
+
+/* Registration and login layout */
+
+.auth-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+/* Registration card */
+
+.auth-card {
+    position: relative;
+    overflow: hidden;
+    padding: 34px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(225, 230, 244, 0.9);
+    border-radius: 22px;
+    box-shadow: 0 18px 55px rgba(31, 48, 99, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 65px rgba(31, 48, 99, 0.12);
+}
+
+.auth-card h2 {
+    margin: 0 0 8px;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: #172345;
+}
+
+.auth-card > p {
+    margin-bottom: 27px;
+    color: #77819a;
+    font-size: 14px;
+}
+
+/* Highlighted login card */
+
+.auth-card#login {
+    color: white;
+    background:
+        radial-gradient(circle at top right, rgba(92, 120, 255, 0.3), transparent 40%),
+        linear-gradient(145deg, #111a38, #1b2d60 65%, #273f85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 24px 60px rgba(23, 38, 88, 0.23);
+}
+
+.auth-card#login::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-card#login h2 {
+    color: #ffffff;
+    font-size: 29px;
+}
+
+.auth-card#login > p {
+    color: #bdc8ec;
+}
+
+/* Form fields */
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 19px;
+    color: #3c4762;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 13px 15px;
+    border: 1px solid #e0e5f0;
+    border-radius: 11px;
+    outline: none;
+    background: #f9faff;
+    color: #182444;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    transition: border-color 0.25s, box-shadow 0.25s,
+                background 0.25s;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: #9ca5ba;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    border-color: #617cf5;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(79, 104, 245, 0.12);
+}
+
+/* Login form fields */
+
+.auth-card#login .form-field {
+    color: #e3e9ff;
+}
+
+.auth-card#login .form-field input,
+.auth-card#login .form-field textarea {
+    color: #1a2545;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-card#login .form-field input:focus,
+.auth-card#login .form-field textarea:focus {
+    border-color: #91a9ff;
+    box-shadow: 0 0 0 4px rgba(140, 164, 255, 0.2);
+}
+
+.auth-card#login .form-field input::placeholder {
+    color: #929bb1;
+}
+
+/* Buttons */
+
+.auth-submit {
+    width: 100%;
+    min-height: 51px;
+    margin-top: 7px;
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(110deg, #4567ef, #7057ee);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 750;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(69, 103, 239, 0.22);
+    transition: transform 0.25s, box-shadow 0.25s,
+                filter 0.25s;
+}
+
+.auth-submit:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.07);
+    box-shadow: 0 12px 25px rgba(69, 103, 239, 0.3);
+}
+
+.auth-submit:active {
+    transform: translateY(0);
+}
+
+/* Login button gets a brighter accent */
+
+.auth-card#login .auth-submit {
+    margin-top: 13px;
+    background: linear-gradient(110deg, #7188ff, #9280ff);
+    box-shadow: 0 9px 25px rgba(92, 111, 255, 0.25);
+}
+
+.auth-card#login .auth-submit:hover {
+    box-shadow: 0 13px 30px rgba(92, 111, 255, 0.4);
+}
+
+/* Server response messages */
+
+.form-message {
+    min-height: 23px;
+    margin-top: 14px;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.form-message.success {
+    color: #16834a;
+}
+
+.form-message.error {
+    color: #d92d20;
+}
+
+.auth-card#login .form-message.success {
+    color: #8df0bd;
+}
+
+.auth-card#login .form-message.error {
+    color: #ffaaa5;
+}
+
+/* Footer */
+
+body > footer {
+    margin-top: 0;
+    padding: 25px 15px;
+    border-top: 1px solid rgba(222, 228, 244, 0.8);
+    background: rgba(255, 255, 255, 0.65);
+    color: #7c859d;
+    font-size: 13px;
+}
+
+/* Tablet and mobile support */
+
+@media (max-width: 850px) {
+    .auth-grid {
+        grid-template-columns: 1fr;
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .auth-shell {
+        padding-top: 40px;
+    }
+}
+
+@media (max-width: 520px) {
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .auth-shell {
+        padding: 32px 15px 45px;
+    }
+
+    .auth-title {
+        margin-bottom: 26px;
+    }
+
+    .auth-title h1 {
+        font-size: 31px;
+    }
+
+    .auth-card {
+        padding: 24px 20px;
+        border-radius: 17px;
+    }
+
+    .auth-card h2 {
+        font-size: 23px;
+    }
+
+    .auth-card#login h2 {
+        font-size: 26px;
+    }
+}

@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | SmartPlacement</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .dashboard-shell {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 24px 70px;
+        }
+
+        .dashboard-hero {
+            padding: 38px;
+            border-radius: 22px;
+            color: #fff;
+            background: linear-gradient(125deg, #14234c, #315be2);
+            box-shadow: 0 18px 45px rgba(30, 57, 130, .18);
+        }
+
+        .dashboard-hero .eyebrow {
+            color: #c8d5ff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .dashboard-hero h1 {
+            margin: 12px 0;
+            font-size: clamp(28px, 5vw, 40px);
+        }
+
+        .dashboard-hero p {
+            color: #e1e8ff;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            gap: 24px;
+            margin-top: 26px;
+        }
+
+        .dashboard-card {
+            padding: 28px;
+            border: 1px solid #e4e9f5;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(30, 50, 90, .06);
+        }
+
+        .dashboard-card h2 {
+            margin: 0 0 8px;
+            color: #172345;
+            font-size: 23px;
+        }
+
+        .card-description {
+            margin: 0 0 22px;
+            color: #77819a;
+            font-size: 14px;
+        }
+
+        .profile-row {
+            padding: 15px 0;
+            border-bottom: 1px solid #edf0f7;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #7b849b;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+        }
+
+        .profile-value {
+            color: #1d2948;
+            font-size: 15px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .dashboard-card .form-field {
+            margin-bottom: 17px;
+        }
+
+        .dashboard-button {
+            display: inline-block;
+            width: 100%;
+            margin-top: 8px;
+            padding: 13px 18px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(110deg, #4567ef, #7057ee);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .dashboard-button:hover {
+            filter: brightness(1.07);
+        }
+
+        .dashboard-message {
+            margin-top: 14px;
+            color: #69748e;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .dashboard-message.success {
+            color: #16834a;
+        }
+
+        .dashboard-message.error {
+            color: #c62828;
+        }
+
+        .journey-section {
+            margin-top: 28px;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .journey-item {
+            padding: 22px;
+            border: 1px solid #e4e9f5;
+            border-radius: 15px;
+            background: #fff;
+        }
+
+        .journey-item h3 {
+            margin: 0 0 8px;
+            color: #263f9b;
+            font-size: 16px;
+        }
+
+        .journey-item p {
+            margin: 0;
+            color: #69748e;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Explore jobs call-to-action */
+        .jobs-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 22px;
+            padding: 24px;
+            border: 1px solid #e1e7fb;
+            border-radius: 16px;
+            background: linear-gradient(120deg, #f2f5ff, #ffffff);
+        }
+
+        .jobs-cta h3 {
+            margin: 0 0 6px;
+            color: #1b2a50;
+            font-size: 18px;
+        }
+
+        .jobs-cta p {
+            margin: 0;
+            color: #71809b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .jobs-cta .dashboard-button {
+            width: auto;
+            margin-top: 0;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 850px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .dashboard-shell {
+                padding: 26px 15px 45px;
+            }
+
+            .dashboard-hero {
+                padding: 27px 22px;
+            }
+
+            .dashboard-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">SmartPlacement</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <button id="logoutButton"
+                type="button"
+                class="dashboard-button"
+                style="width:auto; margin-top:0;">
+            Logout
+        </button>
+    </nav>
+</header>
+
+<main class="dashboard-shell">
+
+    <section class="dashboard-hero">
+        <p class="eyebrow">STUDENT WORKSPACE</p>
+
+        <h1>
+            Welcome back, <span id="studentName">Student</span>!
+        </h1>
+
+        <p>Manage your profile and prepare for your placement journey.</p>
+    </section>
+
+    <div class="dashboard-grid">
+
+        <!-- SAVED STUDENT PROFILE -->
+        <section class="dashboard-card">
+            <h2>My Profile</h2>
+            <p class="card-description">
+                Your currently saved information.
+            </p>
+
+            <div class="profile-row">
+                <span class="profile-label">Full Name</span>
+                <div class="profile-value" id="profileName">Loading...</div>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Email Address</span>
+                <div class="profile-value" id="profileEmail">Loading...</div>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Course / Branch</span>
+                <div class="profile-value" id="profileBranch">Loading...</div>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">CGPA</span>
+                <div class="profile-value" id="profileCgpa">Loading...</div>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Graduation Year</span>
+                <div class="profile-value" id="profileYear">Loading...</div>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Skills</span>
+                <div class="profile-value" id="profileSkills">Loading...</div>
+            </div>
+
+            <p id="dashboardMessage" class="dashboard-message"
+               aria-live="polite"></p>
+        </section>
+
+        <!-- EDIT STUDENT PROFILE -->
+        <section class="dashboard-card">
+            <h2>Edit Profile</h2>
+            <p class="card-description">
+                Update your details and save your changes.
+            </p>
+
+            <form id="editProfileForm">
+
+                <label class="form-field">
+                    Full Name *
+                    <input id="editFullName"
+                           type="text"
+                           maxlength="255"
+                           placeholder="Enter your full name"
+                           required>
+                </label>
+
+                <label class="form-field">
+                    Course / Branch
+                    <input id="editBranch"
+                           type="text"
+                           maxlength="255"
+                           placeholder="e.g. BCA">
+                </label>
+
+                <label class="form-field">
+                    CGPA (0–10)
+                    <input id="editCgpa"
+                           type="number"
+                           min="0"
+                           max="10"
+                           step="0.01"
+                           placeholder="e.g. 8.2">
+                </label>
+
+                <label class="form-field">
+                    Graduation Year
+                    <input id="editGraduationYear"
+                           type="number"
+                           min="2000"
+                           max="2100"
+                           placeholder="e.g. 2027">
+                </label>
+
+                <label class="form-field">
+                    Skills
+                    <textarea id="editSkills"
+                              rows="4"
+                              maxlength="1000"
+                              placeholder="e.g. Java, SQL, HTML"></textarea>
+                </label>
+
+                <button type="submit" class="dashboard-button">
+                    Save Profile Changes
+                </button>
+
+                <p id="editMessage" class="dashboard-message"
+                   aria-live="polite"></p>
+            </form>
+        </section>
+
+    </div>
+
+    <section class="journey-section">
+        <h2>Your Placement Journey</h2>
+
+        <div class="journey-grid">
+            <article class="journey-item">
+                <h3>Complete Your Profile</h3>
+                <p>Keep your academic details and skills up to date.</p>
+            </article>
+
+            <article class="journey-item">
+                <h3>Explore Job Opportunities</h3>
+                <p>Browse published vacancies and check how your CGPA and listed skills match job requirements.</p>
+            </article>
+
+            <article class="journey-item">
+                <h3>Track Applications</h3>
+                <p>Application and interview tracking will be developed next.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- NEW: EXPLORE JOB OPPORTUNITIES BUTTON -->
+    <section class="jobs-cta" aria-label="Explore job opportunities">
+        <div>
+            <h3>Ready for your next opportunity?</h3>
+            <p>Browse company vacancies and check your eligibility using your saved profile.</p>
+        </div>
+
+        <a href="/student-jobs.html" class="dashboard-button">
+            Explore Job Opportunities →
+        </a>
+    </section>
+
+</main>
+
+<script>
+    async function loadStudentProfile() {
+        const dashboardMessage =
+            document.getElementById("dashboardMessage");
+
+        try {
+            const response = await fetch("/api/students/me");
+
+            if (response.status === 401) {
+                window.location.replace("/student.html");
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error("Unable to load your student profile.");
+            }
+
+            const student = await response.json();
+
+            // Show the saved profile
+            document.getElementById("studentName").textContent =
+                student.fullName || "Student";
+
+            document.getElementById("profileName").textContent =
+                student.fullName || "Not provided";
+
+            document.getElementById("profileEmail").textContent =
+                student.email || "Not provided";
+
+            document.getElementById("profileBranch").textContent =
+                student.branch || "Not added yet";
+
+            document.getElementById("profileCgpa").textContent =
+                student.cgpa == null
+                    ? "Not added yet"
+                    : Number(student.cgpa).toFixed(2);
+
+            document.getElementById("profileYear").textContent =
+                student.graduationYear || "Not added yet";
+
+            document.getElementById("profileSkills").textContent =
+                student.skills || "Not added yet";
+
+            // Fill the editing form with saved values
+            document.getElementById("editFullName").value =
+                student.fullName || "";
+
+            document.getElementById("editBranch").value =
+                student.branch || "";
+
+            document.getElementById("editCgpa").value =
+                student.cgpa == null ? "" : student.cgpa;
+
+            document.getElementById("editGraduationYear").value =
+                student.graduationYear == null
+                    ? ""
+                    : student.graduationYear;
+
+            document.getElementById("editSkills").value =
+                student.skills || "";
+
+            dashboardMessage.textContent =
+                "Your saved profile is up to date.";
+
+        } catch (error) {
+            dashboardMessage.textContent =
+                "Unable to load your profile. Please refresh the page.";
+            dashboardMessage.className = "dashboard-message error";
+        }
+    }
+
+    // Save changes to the logged-in student's profile
+    document.getElementById("editProfileForm").addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById("editMessage");
+            message.className = "dashboard-message";
+            message.textContent = "Saving your changes...";
+
+            const cgpaValue =
+                document.getElementById("editCgpa").value;
+
+            const yearValue =
+                document.getElementById("editGraduationYear").value;
+
+            const updatedProfile = {
+                fullName:
+                    document.getElementById("editFullName").value.trim(),
+
+                branch:
+                    document.getElementById("editBranch").value.trim(),
+
+                cgpa: cgpaValue === ""
+                    ? null
+                    : Number(cgpaValue),
+
+                graduationYear: yearValue === ""
+                    ? null
+                    : Number(yearValue),
+
+                skills:
+                    document.getElementById("editSkills").value.trim()
+            };
+
+            try {
+                const response = await fetch("/api/students/me", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedProfile)
+                });
+
+                const result = await response.json();
+
+                if (response.status === 401) {
+                    window.location.replace("/student.html");
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.message || "Could not update your profile."
+                    );
+                }
+
+                message.textContent =
+                    result.message || "Profile updated successfully.";
+
+                message.className = "dashboard-message success";
+
+                // Reload saved values from MySQL
+                await loadStudentProfile();
+
+                message.textContent =
+                    result.message || "Profile updated successfully.";
+                message.className = "dashboard-message success";
+
+            } catch (error) {
+                message.textContent =
+                    error.message || "Unable to save your profile.";
+
+                message.className = "dashboard-message error";
+            }
+        }
+    );
+
+    // Log out the student
+    document.getElementById("logoutButton").addEventListener(
+        "click",
+        async function() {
+            try {
+                await fetch("/api/students/logout", {
+                    method: "POST"
+                });
+            } finally {
+                window.location.replace("/student.html");
+            }
+        }
+    );
+
+    loadStudentProfile();
+</script>
+
+</body>
+</html>

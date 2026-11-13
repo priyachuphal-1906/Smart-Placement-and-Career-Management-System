@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | SmartPlacement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">SmartPlacement</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#register">Register</a>
+        <a href="#login">Login</a>
+    </nav>
+</header>
+
+<main class="auth-shell">
+
+    <div class="auth-title">
+        <h1>Student Portal</h1>
+        <p>Create your account or log in to continue.</p>
+    </div>
+
+    <div class="auth-grid">
+
+        <!-- STUDENT REGISTRATION -->
+        <section class="auth-card" id="register">
+
+            <h2>Student Registration</h2>
+            <p>Create your student account.</p>
+
+            <form id="registerForm">
+
+                <label class="form-field">
+                    Full Name *
+                    <input
+                        id="fullName"
+                        type="text"
+                        placeholder="Enter your full name"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Email *
+                    <input
+                        id="regEmail"
+                        type="email"
+                        placeholder="Enter your email"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Password *
+                    <input
+                        id="regPassword"
+                        type="password"
+                        minlength="8"
+                        placeholder="At least 8 characters"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Course / Branch
+                    <input
+                        id="branch"
+                        type="text"
+                        placeholder="e.g. BCA">
+                </label>
+
+                <label class="form-field">
+                    CGPA (0–10)
+                    <input
+                        id="cgpa"
+                        type="number"
+                        min="0"
+                        max="10"
+                        step="0.01"
+                        placeholder="e.g. 8.2">
+                </label>
+
+                <label class="form-field">
+                    Graduation Year
+                    <input
+                        id="graduationYear"
+                        type="number"
+                        min="2000"
+                        max="2100"
+                        placeholder="e.g. 2027">
+                </label>
+
+                <label class="form-field">
+                    Skills
+                    <textarea
+                        id="skills"
+                        rows="3"
+                        placeholder="e.g. Java, SQL, HTML"></textarea>
+                </label>
+
+                <button class="auth-submit" type="submit">
+                    Create Account
+                </button>
+
+                <p
+                    id="registerMessage"
+                    class="form-message"
+                    aria-live="polite"></p>
+
+            </form>
+        </section>
+
+        <!-- STUDENT LOGIN -->
+        <section class="auth-card" id="login">
+
+            <h2>Welcome Back!</h2>
+            <p>Log in to continue your placement journey.</p>
+
+            <form id="loginForm">
+
+                <label class="form-field">
+                    Email Address *
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        placeholder="Enter your registered email"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Password *
+                    <input
+                        id="loginPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        required>
+                </label>
+
+                <button class="auth-submit" type="submit">
+                    Login to Dashboard
+                </button>
+
+                <p
+                    id="loginMessage"
+                    class="form-message"
+                    aria-live="polite"></p>
+
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <p>Smart Placement &amp; Career Management System</p>
+</footer>
+
+<script>
+    const registerForm = document.getElementById("registerForm");
+    const loginForm = document.getElementById("loginForm");
+
+    // Send requests to the Spring Boot backend
+    async function sendRequest(url, body, messageElement) {
+        messageElement.textContent = "Please wait...";
+        messageElement.className = "form-message";
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+            const result = await response.json();
+
+            messageElement.textContent =
+                result.message || "Request completed.";
+
+            messageElement.classList.add(
+                response.ok ? "success" : "error"
+            );
+
+            return response.ok;
+
+        } catch (error) {
+            messageElement.textContent =
+                "Could not contact the server. Check that the application is running.";
+
+            messageElement.classList.add("error");
+            return false;
+        }
+    }
+
+    // STUDENT REGISTRATION
+    registerForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const cgpaInput =
+            document.getElementById("cgpa").value;
+
+        const yearInput =
+            document.getElementById("graduationYear").value;
+
+        const student = {
+            fullName:
+                document.getElementById("fullName").value.trim(),
+
+            email:
+                document.getElementById("regEmail").value.trim(),
+
+            password:
+                document.getElementById("regPassword").value,
+
+            branch:
+                document.getElementById("branch").value.trim(),
+
+            cgpa: cgpaInput === ""
+                ? null
+                : Number(cgpaInput),
+
+            graduationYear: yearInput === ""
+                ? null
+                : Number(yearInput),
+
+            skills:
+                document.getElementById("skills").value.trim()
+        };
+
+        const message =
+            document.getElementById("registerMessage");
+
+        const success = await sendRequest(
+            "/api/students/register",
+            student,
+            message
+        );
+
+        if (success) {
+            registerForm.reset();
+        }
+    });
+
+    // STUDENT LOGIN AND DASHBOARD REDIRECT
+    loginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const credentials = {
+            email: document.getElementById("loginEmail").value.trim(),
+            password: document.getElementById("loginPassword").value
+        };
+
+        const success = await sendRequest(
+            "/api/students/login",
+            credentials,
+            document.getElementById("loginMessage")
+        );
+
+        if (success) {
+            window.location.href = "/student-dashboard.html";
+        }
+    });
+</script>
+
+</body>
+</html>

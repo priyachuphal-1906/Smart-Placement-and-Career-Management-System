@@ -1,0 +1,908 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Opportunities | SmartPlacement</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .jobs-page {
+            min-height: 100vh;
+            background: #f5f7fc;
+            color: #192646;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .jobs-shell {
+            max-width: 1180px;
+            margin: auto;
+            padding: 35px 24px 70px;
+        }
+
+        .jobs-hero {
+            padding: 36px;
+            border-radius: 22px;
+            color: white;
+            background:
+                radial-gradient(circle at 90% 0%, #536fe9, transparent 35%),
+                linear-gradient(120deg, #121e42, #293f83);
+            box-shadow: 0 18px 40px rgba(25, 43, 95, .15);
+        }
+
+        .jobs-hero-label {
+            color: #c9d5ff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .jobs-hero h1 {
+            margin: 12px 0;
+            font-size: clamp(30px, 5vw, 43px);
+            letter-spacing: -1.4px;
+        }
+
+        .jobs-hero p {
+            max-width: 650px;
+            color: #e0e7ff;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .jobs-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0 22px;
+        }
+
+        .jobs-toolbar h2 {
+            margin: 0 0 6px;
+            font-size: 23px;
+        }
+
+        .jobs-toolbar p {
+            margin: 0;
+            color: #7b859c;
+            font-size: 13px;
+        }
+
+        .jobs-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .jobs-filters input,
+        .jobs-filters select {
+            min-height: 43px;
+            max-width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dfe5f0;
+            border-radius: 9px;
+            background: white;
+            color: #283656;
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .job-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 25px;
+            border: 1px solid #e5eaf4;
+            border-radius: 17px;
+            background: white;
+            box-shadow: 0 9px 26px rgba(30, 48, 92, .045);
+            transition: transform .22s, box-shadow .22s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(30, 48, 92, .09);
+        }
+
+        .job-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .job-company {
+            margin: 0 0 7px;
+            color: #6474d9;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .job-card h3 {
+            margin: 0;
+            color: #1b2949;
+            font-size: 20px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .job-status {
+            flex-shrink: 0;
+            padding: 7px 9px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .job-status.eligible {
+            color: #18784a;
+            background: #e5f7ed;
+        }
+
+        .job-status.ineligible {
+            color: #b54735;
+            background: #fff0ec;
+        }
+
+        .job-status.review {
+            color: #825f12;
+            background: #fff5d9;
+        }
+
+        .job-status.closed {
+            color: #5f6675;
+            background: #edf0f5;
+        }
+
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 17px 0;
+        }
+
+        .job-details span {
+            padding: 7px 9px;
+            border: 1px solid #e7ebf4;
+            border-radius: 7px;
+            color: #5f6d89;
+            font-size: 10px;
+        }
+
+        .job-description {
+            margin: 0 0 19px;
+            color: #758098;
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .job-requirements {
+            padding: 15px;
+            border-radius: 11px;
+            background: #f7f8fd;
+        }
+
+        .job-requirements h4 {
+            margin: 0 0 9px;
+            color: #273553;
+            font-size: 12px;
+        }
+
+        .job-requirements p {
+            margin: 5px 0;
+            color: #71809b;
+            font-size: 11px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .eligibility-reason {
+            margin-top: 12px;
+            color: #5267bf;
+            font-size: 12px;
+            font-weight: 650;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .apply-button {
+            width: 100%;
+            margin-top: 16px;
+            padding: 13px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(110deg, #4567ef, #7057ee);
+            color: white;
+            font-size: 13px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: filter .2s;
+        }
+
+        .apply-button:hover:not(:disabled) {
+            filter: brightness(1.08);
+        }
+
+        .apply-button:disabled {
+            background: #e8ebf2;
+            color: #737e93;
+            cursor: not-allowed;
+        }
+
+        .apply-message {
+            min-height: 18px;
+            margin: 9px 0 0;
+            font-size: 12px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .apply-message.success {
+            color: #16834a;
+        }
+
+        .apply-message.error {
+            color: #c62828;
+        }
+
+        .section-heading {
+            margin: 40px 0 18px;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 6px;
+            color: #192646;
+            font-size: 24px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: #7b859c;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .applications-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .application-card {
+            padding: 20px;
+            border: 1px solid #e5eaf4;
+            border-radius: 14px;
+            background: white;
+        }
+
+        .application-card h3 {
+            margin: 0 0 6px;
+            color: #1b2949;
+            font-size: 16px;
+        }
+
+        .application-card p {
+            margin: 5px 0;
+            color: #758098;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .application-status {
+            display: inline-block;
+            margin-top: 9px;
+            padding: 7px 10px;
+            border-radius: 30px;
+            background: #e5f7ed;
+            color: #18784a;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .jobs-message {
+            padding: 30px 20px;
+            border: 1px dashed #d9e0ee;
+            border-radius: 14px;
+            background: white;
+            color: #77839b;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .jobs-back {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 12px 16px;
+            border: 1px solid #dfe5f0;
+            border-radius: 9px;
+            background: white;
+            color: #354565;
+            font-size: 12px;
+            font-weight: 750;
+            text-decoration: none;
+        }
+
+        @media (max-width: 760px) {
+            .jobs-grid,
+            .applications-list {
+                grid-template-columns: 1fr;
+            }
+
+            .jobs-shell {
+                padding: 24px 15px 45px;
+            }
+
+            .jobs-hero {
+                padding: 27px 22px;
+            }
+
+            .jobs-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .jobs-filters {
+                flex-direction: column;
+            }
+
+            .jobs-filters input,
+            .jobs-filters select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="jobs-page">
+
+<header class="navbar">
+    <a class="logo" href="/" style="text-decoration:none;">
+        SmartPlacement
+    </a>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/student-dashboard.html">My Dashboard</a>
+    </nav>
+</header>
+
+<main class="jobs-shell">
+
+    <section class="jobs-hero">
+        <div class="jobs-hero-label">YOUR NEXT CAREER MOVE</div>
+        <h1>Discover opportunities.</h1>
+        <p>
+            Explore company vacancies, check how your saved CGPA and skills
+            match job requirements, and apply for eligible opportunities.
+        </p>
+        <p id="welcomeStudent"></p>
+    </section>
+
+    <section class="jobs-toolbar">
+        <div>
+            <h2>Available opportunities</h2>
+            <p id="jobCount">Loading job listings...</p>
+        </div>
+
+        <div class="jobs-filters">
+            <input id="jobSearch"
+                   type="search"
+                   placeholder="Search title, company or skill">
+
+            <select id="eligibilityFilter">
+                <option value="all">All jobs</option>
+                <option value="eligible">Eligible for me</option>
+                <option value="ineligible">Requirements not met</option>
+                <option value="review">Update my profile</option>
+                <option value="closed">Deadline passed</option>
+            </select>
+        </div>
+    </section>
+
+    <section id="jobsList" class="jobs-grid">
+        <div class="jobs-message">Loading job listings...</div>
+    </section>
+
+    <section class="section-heading">
+        <h2>My Applications</h2>
+        <p>Track the applications you have submitted.</p>
+    </section>
+
+    <section id="applicationsList" class="applications-list">
+        <div class="jobs-message">Loading your applications...</div>
+    </section>
+
+    <a class="jobs-back" href="/student-dashboard.html">
+        ← Back to Student Dashboard
+    </a>
+</main>
+
+<script>
+    let studentProfile = null;
+    let allJobs = [];
+    let applications = [];
+
+    const jobsList = document.getElementById("jobsList");
+    const jobCount = document.getElementById("jobCount");
+    const searchInput = document.getElementById("jobSearch");
+    const eligibilityFilter = document.getElementById("eligibilityFilter");
+    const applicationsList = document.getElementById("applicationsList");
+
+    function localDateString() {
+        const date = new Date();
+
+        return [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0")
+        ].join("-");
+    }
+
+    function studentSkills() {
+        return (studentProfile.skills || "")
+            .split(",")
+            .map(skill => skill.trim().toLowerCase())
+            .filter(Boolean);
+    }
+
+    function checkEligibility(job) {
+        const reasons = [];
+        let needsProfile = false;
+
+        if (job.applicationDeadline &&
+            job.applicationDeadline < localDateString()) {
+            return {
+                status: "closed",
+                label: "Deadline passed",
+                reason: "The application deadline has passed."
+            };
+        }
+
+        if (job.minimumCgpa != null) {
+            if (studentProfile.cgpa == null) {
+                needsProfile = true;
+                reasons.push("Add your CGPA to your profile.");
+            } else if (Number(studentProfile.cgpa) < Number(job.minimumCgpa)) {
+                reasons.push(
+                    "Your CGPA is below the required " +
+                    job.minimumCgpa + "."
+                );
+            }
+        }
+
+        const requiredSkills = (job.requiredSkills || "")
+            .split(",")
+            .map(skill => skill.trim().toLowerCase())
+            .filter(Boolean);
+
+        const skills = studentSkills();
+
+        if (requiredSkills.length > 0) {
+            if (skills.length === 0) {
+                needsProfile = true;
+                reasons.push("Add your skills to your profile.");
+            } else {
+                const missingSkills = requiredSkills.filter(
+                    skill => !skills.includes(skill)
+                );
+
+                if (missingSkills.length > 0) {
+                    reasons.push(
+                        "Missing listed skills: " +
+                        missingSkills.join(", ") + "."
+                    );
+                }
+            }
+        }
+
+        if (reasons.length === 0) {
+            return {
+                status: "eligible",
+                label: "Eligible",
+                reason: "Your saved profile meets the listed criteria."
+            };
+        }
+
+        const failedRequirement = reasons.some(
+            reason => reason.startsWith("Your CGPA is below") ||
+                      reason.startsWith("Missing listed skills:")
+        );
+
+        if (failedRequirement) {
+            return {
+                status: "ineligible",
+                label: "Requirements not met",
+                reason: reasons.join(" ")
+            };
+        }
+
+        if (needsProfile) {
+            return {
+                status: "review",
+                label: "Update your profile",
+                reason: reasons.join(" ")
+            };
+        }
+
+        return {
+            status: "ineligible",
+            label: "Requirements not met",
+            reason: reasons.join(" ")
+        };
+    }
+
+    function textElement(tag, className, text) {
+        const element = document.createElement(tag);
+        element.className = className;
+        element.textContent = text;
+        return element;
+    }
+
+    function formatSalary(job) {
+        const min = job.salaryMinLpa;
+        const max = job.salaryMaxLpa;
+
+        if (min == null && max == null) return "Salary not specified";
+        if (min != null && max != null) return min + "–" + max + " LPA";
+        if (min != null) return "From " + min + " LPA";
+        return "Up to " + max + " LPA";
+    }
+
+    function alreadyApplied(jobId) {
+        return applications.some(
+            application => Number(application.jobId) === Number(jobId)
+        );
+    }
+
+    function showApplyMessage(element, message, type = "") {
+        element.textContent = message;
+        element.className = "apply-message";
+        if (type) element.classList.add(type);
+    }
+
+    async function applyForJob(jobId, button, messageElement) {
+        button.disabled = true;
+        button.textContent = "Submitting...";
+
+        try {
+            const response = await fetch(
+                "/api/applications/jobs/" + encodeURIComponent(jobId),
+                { method: "POST" }
+            );
+
+            const result = await response.json();
+
+            if (response.status === 401) {
+                window.location.replace("/student.html");
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Could not submit your application."
+                );
+            }
+
+            showApplyMessage(
+                messageElement,
+                result.message || "Application submitted successfully!",
+                "success"
+            );
+
+            await loadApplications();
+            renderJobs();
+
+        } catch (error) {
+            showApplyMessage(
+                messageElement,
+                error.message || "An error occurred. Please try again.",
+                "error"
+            );
+
+            button.disabled = false;
+            button.textContent = "Apply Now";
+        }
+    }
+
+    function makeJobCard(job) {
+        const eligibility = checkEligibility(job);
+        const card = document.createElement("article");
+        card.className = "job-card";
+
+        const head = document.createElement("div");
+        head.className = "job-card-head";
+
+        const titleBlock = document.createElement("div");
+
+        titleBlock.appendChild(
+            textElement("p", "job-company", job.companyName || "Company")
+        );
+
+        titleBlock.appendChild(
+            textElement("h3", "", job.title || "Untitled position")
+        );
+
+        const badge = textElement(
+            "span",
+            "job-status " + eligibility.status,
+            eligibility.label
+        );
+
+        head.append(titleBlock, badge);
+        card.appendChild(head);
+
+        const details = document.createElement("div");
+        details.className = "job-details";
+
+        [
+            job.location || "Location not specified",
+            job.employmentType || "Type not specified",
+            formatSalary(job),
+            job.applicationDeadline
+                ? "Deadline: " + job.applicationDeadline
+                : "No deadline specified"
+        ].forEach(text => {
+            details.appendChild(textElement("span", "", text));
+        });
+
+        card.appendChild(details);
+
+        card.appendChild(
+            textElement(
+                "p",
+                "job-description",
+                job.description || "No job description provided."
+            )
+        );
+
+        const requirements = document.createElement("div");
+        requirements.className = "job-requirements";
+
+        requirements.appendChild(
+            textElement("h4", "", "Eligibility requirements")
+        );
+
+        requirements.appendChild(
+            textElement(
+                "p",
+                "",
+                "Minimum CGPA: " +
+                    (job.minimumCgpa == null
+                        ? "Not specified"
+                        : job.minimumCgpa)
+            )
+        );
+
+        requirements.appendChild(
+            textElement(
+                "p",
+                "",
+                "Required skills: " +
+                    (job.requiredSkills || "Not specified")
+            )
+        );
+
+        card.appendChild(requirements);
+
+        card.appendChild(
+            textElement("p", "eligibility-reason", eligibility.reason)
+        );
+
+        const message = textElement("p", "apply-message", "");
+        card.appendChild(message);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "apply-button";
+
+        if (alreadyApplied(job.id)) {
+            button.textContent = "Already Applied";
+            button.disabled = true;
+        } else if (eligibility.status === "eligible") {
+            button.textContent = "Apply Now →";
+            button.addEventListener("click", () => {
+                applyForJob(job.id, button, message);
+            });
+        } else if (eligibility.status === "review") {
+            button.textContent = "Update Profile to Apply";
+            button.addEventListener("click", () => {
+                window.location.href = "/student-dashboard.html";
+            });
+        } else {
+            button.textContent = eligibility.status === "closed"
+                ? "Applications Closed"
+                : "Requirements Not Met";
+            button.disabled = true;
+        }
+
+        card.appendChild(button);
+        return card;
+    }
+
+    function renderJobs() {
+        const query = searchInput.value.trim().toLowerCase();
+        const filter = eligibilityFilter.value;
+
+        const visibleJobs = allJobs.filter(job => {
+            const searchableText = [
+                job.title,
+                job.companyName,
+                job.location,
+                job.requiredSkills,
+                job.description
+            ].join(" ").toLowerCase();
+
+            const matchesSearch = searchableText.includes(query);
+            const matchesFilter =
+                filter === "all" ||
+                checkEligibility(job).status === filter;
+
+            return matchesSearch && matchesFilter;
+        });
+
+        jobsList.replaceChildren();
+
+        jobCount.textContent =
+            visibleJobs.length + " opportunity" +
+            (visibleJobs.length === 1 ? "" : "ies");
+
+        if (visibleJobs.length === 0) {
+            jobsList.appendChild(
+                textElement(
+                    "div",
+                    "jobs-message",
+                    "No matching job listings. Try another search or filter."
+                )
+            );
+            return;
+        }
+
+        visibleJobs.forEach(job => {
+            jobsList.appendChild(makeJobCard(job));
+        });
+    }
+
+    async function loadApplications() {
+        const response = await fetch("/api/applications/mine");
+
+        if (response.status === 401) {
+            window.location.replace("/student.html");
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Unable to load your applications.");
+        }
+
+        const data = await response.json();
+        applications = Array.isArray(data) ? data : [];
+
+        renderApplications();
+    }
+
+    function renderApplications() {
+        applicationsList.replaceChildren();
+
+        if (applications.length === 0) {
+            applicationsList.appendChild(
+                textElement(
+                    "div",
+                    "jobs-message",
+                    "You have not applied for any jobs yet. Eligible jobs will have an Apply Now button."
+                )
+            );
+            return;
+        }
+
+        applications.forEach(application => {
+            const card = document.createElement("article");
+            card.className = "application-card";
+
+            card.appendChild(
+                textElement("h3", "", application.jobTitle || "Job")
+            );
+
+            card.appendChild(
+                textElement(
+                    "p",
+                    "",
+                    "Company: " + (application.companyName || "Not available")
+                )
+            );
+
+            card.appendChild(
+                textElement(
+                    "p",
+                    "",
+                    "Applied on: " +
+                    (application.appliedAt
+                        ? new Date(application.appliedAt).toLocaleString()
+                        : "Date not available")
+                )
+            );
+
+            card.appendChild(
+                textElement(
+                    "p",
+                    "",
+                    "Deadline: " +
+                    (application.applicationDeadline || "Not specified")
+                )
+            );
+
+            card.appendChild(
+                textElement(
+                    "span",
+                    "application-status",
+                    "Status: " + (application.status || "APPLIED")
+                )
+            );
+
+            applicationsList.appendChild(card);
+        });
+    }
+
+    async function loadPage() {
+        try {
+            const profileResponse = await fetch("/api/students/me");
+
+            if (profileResponse.status === 401) {
+                window.location.replace("/student.html");
+                return;
+            }
+
+            if (!profileResponse.ok) {
+                throw new Error("Unable to load your student profile.");
+            }
+
+            studentProfile = await profileResponse.json();
+
+            document.getElementById("welcomeStudent").textContent =
+                "Welcome, " + (studentProfile.fullName || "Student") + ".";
+
+            const jobsResponse = await fetch("/api/jobs");
+
+            if (!jobsResponse.ok) {
+                throw new Error("Unable to retrieve job listings.");
+            }
+
+            const jobs = await jobsResponse.json();
+            allJobs = Array.isArray(jobs) ? jobs : [];
+
+            await loadApplications();
+            renderJobs();
+
+        } catch (error) {
+            jobCount.textContent = "Could not load data";
+
+            jobsList.replaceChildren(
+                textElement(
+                    "div",
+                    "jobs-message",
+                    error.message || "Unable to load the page. Please refresh."
+                )
+            );
+        }
+    }
+
+    searchInput.addEventListener("input", renderJobs);
+    eligibilityFilter.addEventListener("change", renderJobs);
+
+    loadPage();
+</script>
+
+</body>
+</html>

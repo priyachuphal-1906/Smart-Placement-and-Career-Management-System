@@ -1,0 +1,818 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard | SmartPlacement</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .company-shell {
+            max-width: 1200px;
+            margin: auto;
+            padding: 35px 24px 65px;
+        }
+
+        .company-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 34px;
+            color: white;
+            border-radius: 22px;
+            background:
+                radial-gradient(circle at 90% 5%, #526ce9, transparent 35%),
+                linear-gradient(120deg, #111d40, #263f85);
+            box-shadow: 0 18px 40px rgba(25, 43, 95, .16);
+        }
+
+        .company-hero .eyebrow {
+            color: #c5d1ff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .company-hero h1 {
+            margin: 10px 0;
+            font-size: clamp(27px, 4vw, 38px);
+            letter-spacing: -1px;
+        }
+
+        .company-hero p {
+            margin: 0;
+            color: #e0e7ff;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .company-badge {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 66px;
+            height: 66px;
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 19px;
+            background: rgba(255,255,255,.12);
+            font-size: 30px;
+        }
+
+        .company-section-title {
+            margin: 32px 0 18px;
+        }
+
+        .company-section-title h2 {
+            margin: 0 0 5px;
+            color: #172342;
+            font-size: 24px;
+        }
+
+        .company-section-title p {
+            margin: 0;
+            color: #7b859c;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .company-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+            gap: 23px;
+            align-items: start;
+        }
+
+        .company-card {
+            min-width: 0;
+            padding: 27px;
+            border: 1px solid #e6eaf3;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 12px 32px rgba(30, 48, 92, .055);
+        }
+
+        .company-card h3 {
+            margin: 0 0 7px;
+            color: #1b2949;
+            font-size: 20px;
+        }
+
+        .company-card .card-subtitle {
+            margin: 0 0 23px;
+            color: #7d879d;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .job-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 15px;
+        }
+
+        .job-form-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .company-card .form-field {
+            min-width: 0;
+            margin-bottom: 17px;
+        }
+
+        .company-card .form-field input,
+        .company-card .form-field textarea,
+        .company-card .form-field select {
+            width: 100%;
+            max-width: 100%;
+            min-height: 45px;
+            padding: 12px;
+            border: 1px solid #dfe5f0;
+            border-radius: 9px;
+            background: #fafbff;
+            color: #24314f;
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .company-card .form-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .company-card .form-field input:focus,
+        .company-card .form-field textarea:focus,
+        .company-card .form-field select:focus {
+            outline: none;
+            border-color: #657af0;
+            box-shadow: 0 0 0 3px rgba(89, 111, 238, .12);
+        }
+
+        .company-submit {
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(110deg, #4567ef, #7057ee);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .company-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 20px rgba(69, 103, 239, .23);
+        }
+
+        .company-submit:disabled {
+            opacity: .65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .company-message {
+            min-height: 20px;
+            margin: 13px 0 0;
+            color: #66738e;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .company-message.success {
+            color: #16834a;
+        }
+
+        .company-message.error {
+            color: #c62828;
+        }
+
+        .company-profile-box {
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid #e7ebf6;
+            border-radius: 13px;
+            background: #f7f8ff;
+        }
+
+        .company-profile-box strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #263d92;
+            font-size: 16px;
+            overflow-wrap: anywhere;
+        }
+
+        .company-profile-box span {
+            color: #77819a;
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .job-list {
+            display: grid;
+            gap: 13px;
+        }
+
+        .job-item {
+            padding: 18px;
+            border: 1px solid #e7ebf3;
+            border-radius: 13px;
+            background: #fff;
+        }
+
+        .job-item-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .job-item h4 {
+            margin: 0 0 7px;
+            color: #1b2949;
+            font-size: 16px;
+            overflow-wrap: anywhere;
+        }
+
+        .job-location {
+            margin: 0;
+            color: #7a859b;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .job-status {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 6px 8px;
+            border-radius: 30px;
+            background: #e7f7ed;
+            color: #218555;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 13px;
+        }
+
+        .job-meta span {
+            padding: 7px 9px;
+            border: 1px solid #e7eaf2;
+            border-radius: 7px;
+            color: #64708b;
+            font-size: 10px;
+        }
+
+        .job-description {
+            margin: 13px 0 0;
+            color: #737f96;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .empty-jobs {
+            padding: 30px 15px;
+            border: 1px dashed #dbe1ed;
+            border-radius: 13px;
+            color: #8490a6;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .logout-button {
+            padding: 10px 15px;
+            border: 1px solid #e0e5ef;
+            border-radius: 9px;
+            background: #fff;
+            color: #34415f;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #f2f4fb;
+        }
+
+        .company-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .company-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .company-shell {
+                padding: 23px 14px 45px;
+            }
+
+            .company-hero {
+                padding: 25px 21px;
+            }
+
+            .company-badge {
+                width: 48px;
+                height: 48px;
+                border-radius: 14px;
+                font-size: 23px;
+            }
+
+            .company-card {
+                padding: 20px;
+            }
+
+            .job-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-form-grid .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="/" class="logo" style="text-decoration:none">
+        SmartPlacement
+    </a>
+
+    <div class="company-nav-actions">
+        <a href="/" style="font-size:13px;text-decoration:none;color:#46526c">
+            Home
+        </a>
+        <button id="logoutButton" class="logout-button" type="button">
+            Log Out
+        </button>
+    </div>
+</header>
+
+<main class="company-shell">
+
+    <section class="company-hero">
+        <div>
+            <p class="eyebrow">COMPANY WORKSPACE</p>
+            <h1>Recruit smarter.<br>Find your next talent.</h1>
+            <p id="companyWelcome">
+                Manage your job openings and recruitment requirements.
+            </p>
+        </div>
+        <div class="company-badge" aria-hidden="true">▤</div>
+    </section>
+
+    <section class="company-section-title">
+        <h2>Recruitment dashboard</h2>
+        <p>Create a vacancy and manage the jobs you have posted.</p>
+    </section>
+
+    <div class="company-layout">
+
+        <!-- JOB POSTING FORM -->
+        <section class="company-card">
+            <h3>Post a new job</h3>
+            <p class="card-subtitle">
+                Enter the role, compensation and eligibility requirements.
+            </p>
+
+            <form id="jobForm">
+                <div class="job-form-grid">
+
+                    <label class="form-field full-width">
+                        Job title *
+                        <input id="jobTitle"
+                               type="text"
+                               maxlength="255"
+                               placeholder="e.g. Junior Java Developer"
+                               required>
+                    </label>
+
+                    <label class="form-field">
+                        Job location *
+                        <input id="jobLocation"
+                               type="text"
+                               maxlength="255"
+                               placeholder="e.g. Bengaluru"
+                               required>
+                    </label>
+
+                    <label class="form-field">
+                        Employment type *
+                        <select id="employmentType" required>
+                            <option value="">Select type</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                    </label>
+
+                    <label class="form-field">
+                        Minimum salary (LPA)
+                        <input id="salaryMin"
+                               type="number"
+                               min="0"
+                               step="0.1"
+                               placeholder="e.g. 3">
+                    </label>
+
+                    <label class="form-field">
+                        Maximum salary (LPA)
+                        <input id="salaryMax"
+                               type="number"
+                               min="0"
+                               step="0.1"
+                               placeholder="e.g. 6">
+                    </label>
+
+                    <label class="form-field">
+                        Minimum CGPA (0–10)
+                        <input id="minimumCgpa"
+                               type="number"
+                               min="0"
+                               max="10"
+                               step="0.1"
+                               placeholder="e.g. 6.5">
+                    </label>
+
+                    <label class="form-field">
+                        Application deadline *
+                        <input id="applicationDeadline"
+                               type="date"
+                               required>
+                    </label>
+
+                    <label class="form-field full-width">
+                        Required skills
+                        <input id="requiredSkills"
+                               type="text"
+                               maxlength="1000"
+                               placeholder="e.g. Java, SQL, HTML">
+                    </label>
+
+                    <label class="form-field full-width">
+                        Job description *
+                        <textarea id="jobDescription"
+                                  maxlength="3000"
+                                  placeholder="Describe the role, responsibilities and requirements..."
+                                  required></textarea>
+                    </label>
+
+                </div>
+
+                <button id="postJobButton"
+                        class="company-submit"
+                        type="submit">
+                    + Publish Job Vacancy
+                </button>
+
+                <p id="jobMessage"
+                   class="company-message"
+                   aria-live="polite"></p>
+            </form>
+        </section>
+
+        <!-- COMPANY INFORMATION AND JOB LIST -->
+        <section class="company-card">
+            <h3>Your company</h3>
+            <p class="card-subtitle">
+                Your company profile and published vacancies.
+            </p>
+
+            <div class="company-profile-box">
+                <strong id="companyName">Loading company...</strong>
+                <span id="companyEmail">Loading email...</span>
+                <br>
+                <span id="companyDetails"></span>
+            </div>
+
+            <div class="company-section-title" style="margin-top:26px">
+                <h2 style="font-size:19px">Your job postings</h2>
+                <p>Your latest vacancies appear here.</p>
+            </div>
+
+            <div id="jobList" class="job-list">
+                <div class="empty-jobs">Loading your job postings...</div>
+            </div>
+
+            <p id="listMessage"
+               class="company-message"
+               aria-live="polite"></p>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <p>Smart Placement &amp; Career Management System</p>
+</footer>
+
+<script>
+    const jobForm = document.getElementById("jobForm");
+    const jobMessage = document.getElementById("jobMessage");
+    const postJobButton = document.getElementById("postJobButton");
+    const jobList = document.getElementById("jobList");
+
+    function showMessage(element, message, type = "") {
+        element.textContent = message;
+        element.className = "company-message";
+        if (type) element.classList.add(type);
+    }
+
+    async function loadCompanyProfile() {
+        try {
+            const response = await fetch("/api/companies/me");
+
+            if (response.status === 401) {
+                window.location.replace("/company.html");
+                return false;
+            }
+
+            if (!response.ok) {
+                throw new Error("Could not load the company profile.");
+            }
+
+            const company = await response.json();
+
+            document.getElementById("companyWelcome").textContent =
+                "Welcome, " + company.companyName +
+                ". Manage your vacancies and recruitment requirements.";
+
+            document.getElementById("companyName").textContent =
+                company.companyName || "Company";
+
+            document.getElementById("companyEmail").textContent =
+                company.email || "";
+
+            const details = [
+                company.industry,
+                company.location
+            ].filter(Boolean);
+
+            document.getElementById("companyDetails").textContent =
+                details.join(" · ");
+
+            return true;
+
+        } catch (error) {
+            showMessage(
+                document.getElementById("listMessage"),
+                "Unable to load company details. Refresh the page to retry.",
+                "error"
+            );
+            return false;
+        }
+    }
+
+    function makeJobCard(job) {
+        const card = document.createElement("article");
+        card.className = "job-item";
+
+        const top = document.createElement("div");
+        top.className = "job-item-top";
+
+        const headingWrap = document.createElement("div");
+
+        const heading = document.createElement("h4");
+        heading.textContent = job.title || "Untitled role";
+
+        const location = document.createElement("p");
+        location.className = "job-location";
+        location.textContent =
+            (job.location || "Location not specified") +
+            " · " + (job.employmentType || "Type not specified");
+
+        headingWrap.append(heading, location);
+
+        const status = document.createElement("span");
+        status.className = "job-status";
+        status.textContent = "PUBLISHED";
+
+        top.append(headingWrap, status);
+        card.append(top);
+
+        const meta = document.createElement("div");
+        meta.className = "job-meta";
+
+        function addMeta(text) {
+            const item = document.createElement("span");
+            item.textContent = text;
+            meta.appendChild(item);
+        }
+
+        if (job.salaryMinLpa != null || job.salaryMaxLpa != null) {
+            const min = job.salaryMinLpa;
+            const max = job.salaryMaxLpa;
+
+            let salary = "Salary: ";
+            if (min != null && max != null) {
+                salary += min + "–" + max + " LPA";
+            } else if (min != null) {
+                salary += "From " + min + " LPA";
+            } else {
+                salary += "Up to " + max + " LPA";
+            }
+
+            addMeta(salary);
+        }
+
+        if (job.minimumCgpa != null) {
+            addMeta("Minimum CGPA: " + job.minimumCgpa);
+        }
+
+        if (job.applicationDeadline) {
+            addMeta("Deadline: " + job.applicationDeadline);
+        }
+
+        if (job.requiredSkills) {
+            addMeta("Skills: " + job.requiredSkills);
+        }
+
+        card.appendChild(meta);
+
+        if (job.description) {
+            const description = document.createElement("p");
+            description.className = "job-description";
+            description.textContent = job.description;
+            card.appendChild(description);
+        }
+
+        return card;
+    }
+
+    async function loadMyJobs() {
+        try {
+            const response = await fetch("/api/jobs/mine");
+
+            if (response.status === 401) {
+                window.location.replace("/company.html");
+                return;
+            }
+
+            const jobs = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    jobs.message || "Unable to load your jobs."
+                );
+            }
+
+            jobList.replaceChildren();
+
+            if (!Array.isArray(jobs) || jobs.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "empty-jobs";
+                empty.textContent =
+                    "No jobs posted yet. Publish your first vacancy using the form.";
+                jobList.appendChild(empty);
+                return;
+            }
+
+            jobs.forEach(job => jobList.appendChild(makeJobCard(job)));
+
+        } catch (error) {
+            jobList.replaceChildren();
+
+            const empty = document.createElement("div");
+            empty.className = "empty-jobs";
+            empty.textContent =
+                "Could not load job postings. Please refresh the page.";
+
+            jobList.appendChild(empty);
+        }
+    }
+
+    jobForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const minValue = document.getElementById("salaryMin").value;
+        const maxValue = document.getElementById("salaryMax").value;
+        const cgpaValue = document.getElementById("minimumCgpa").value;
+
+        const payload = {
+            title: document.getElementById("jobTitle").value.trim(),
+            description: document.getElementById("jobDescription").value.trim(),
+            location: document.getElementById("jobLocation").value.trim(),
+            employmentType: document.getElementById("employmentType").value,
+            salaryMinLpa: minValue === "" ? null : Number(minValue),
+            salaryMaxLpa: maxValue === "" ? null : Number(maxValue),
+            minimumCgpa: cgpaValue === "" ? null : Number(cgpaValue),
+            requiredSkills:
+                document.getElementById("requiredSkills").value.trim(),
+            applicationDeadline:
+                document.getElementById("applicationDeadline").value
+        };
+
+        if (payload.salaryMinLpa != null &&
+            payload.salaryMaxLpa != null &&
+            payload.salaryMinLpa > payload.salaryMaxLpa) {
+            showMessage(
+                jobMessage,
+                "Minimum salary cannot exceed maximum salary.",
+                "error"
+            );
+            return;
+        }
+
+        postJobButton.disabled = true;
+        postJobButton.textContent = "Publishing...";
+        showMessage(jobMessage, "Saving your job posting...");
+
+        try {
+            const response = await fetch("/api/jobs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (response.status === 401) {
+                window.location.replace("/company.html");
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Unable to publish the job."
+                );
+            }
+
+            showMessage(
+                jobMessage,
+                result.message || "Job posted successfully.",
+                "success"
+            );
+
+            jobForm.reset();
+            await loadMyJobs();
+
+        } catch (error) {
+            showMessage(
+                jobMessage,
+                error.message || "Could not contact the server.",
+                "error"
+            );
+        } finally {
+            postJobButton.disabled = false;
+            postJobButton.textContent = "+ Publish Job Vacancy";
+        }
+    });
+
+    document.getElementById("logoutButton").addEventListener(
+        "click",
+        async function() {
+            try {
+                await fetch("/api/companies/logout", { method: "POST" });
+            } finally {
+                window.location.replace("/company.html");
+            }
+        }
+    );
+
+    async function initialiseDashboard() {
+        const authenticated = await loadCompanyProfile();
+
+        if (authenticated) {
+            await loadMyJobs();
+        }
+    }
+
+    // Prevent selecting a deadline in the past.
+    const deadlineInput =
+        document.getElementById("applicationDeadline");
+
+    const today = new Date();
+    const localToday = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+    ].join("-");
+
+    deadlineInput.min = localToday;
+
+    initialiseDashboard();
+</script>
+
+</body>
+</html>

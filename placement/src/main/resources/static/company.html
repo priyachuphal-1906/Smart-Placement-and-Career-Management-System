@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Portal | SmartPlacement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="/" class="logo" style="text-decoration:none;">
+        SmartPlacement
+    </a>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#register">Register</a>
+        <a href="#login">Login</a>
+    </nav>
+</header>
+
+<main class="auth-shell">
+
+    <div class="auth-title">
+        <h1>Company Portal</h1>
+        <p>
+            Connect with talented students and manage your recruitment journey.
+        </p>
+    </div>
+
+    <div class="auth-grid">
+
+        <!-- COMPANY REGISTRATION -->
+        <section class="auth-card" id="register">
+
+            <h2>Company Registration</h2>
+            <p>Create your company account.</p>
+
+            <form id="companyRegisterForm">
+
+                <label class="form-field">
+                    Company Name *
+                    <input
+                        id="companyName"
+                        type="text"
+                        maxlength="255"
+                        placeholder="Enter company name"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Business Email *
+                    <input
+                        id="companyRegEmail"
+                        type="email"
+                        placeholder="Enter business email"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Password *
+                    <input
+                        id="companyRegPassword"
+                        type="password"
+                        minlength="8"
+                        placeholder="At least 8 characters"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Industry
+                    <input
+                        id="industry"
+                        type="text"
+                        maxlength="255"
+                        placeholder="e.g. Information Technology">
+                </label>
+
+                <label class="form-field">
+                    Company Website
+                    <input
+                        id="website"
+                        type="url"
+                        placeholder="https://example.com">
+                </label>
+
+                <label class="form-field">
+                    Company Location
+                    <input
+                        id="location"
+                        type="text"
+                        maxlength="255"
+                        placeholder="e.g. New Delhi, India">
+                </label>
+
+                <button class="auth-submit" type="submit">
+                    Register Company
+                </button>
+
+                <p
+                    id="registerMessage"
+                    class="form-message"
+                    aria-live="polite"></p>
+
+            </form>
+        </section>
+
+        <!-- COMPANY LOGIN -->
+        <section class="auth-card" id="login">
+
+            <h2>Welcome Back!</h2>
+            <p>Log in to manage your recruitment activities.</p>
+
+            <form id="companyLoginForm">
+
+                <label class="form-field">
+                    Business Email *
+                    <input
+                        id="companyLoginEmail"
+                        type="email"
+                        placeholder="Enter registered email"
+                        required>
+                </label>
+
+                <label class="form-field">
+                    Password *
+                    <input
+                        id="companyLoginPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        required>
+                </label>
+
+                <button class="auth-submit" type="submit">
+                    Company Login
+                </button>
+
+                <p
+                    id="loginMessage"
+                    class="form-message"
+                    aria-live="polite"></p>
+
+            </form>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <p>Smart Placement &amp; Career Management System</p>
+</footer>
+
+<script>
+    const companyRegisterForm =
+        document.getElementById("companyRegisterForm");
+
+    const companyLoginForm =
+        document.getElementById("companyLoginForm");
+
+    // Send requests to the Spring Boot backend
+    async function sendCompanyRequest(url, body, messageElement) {
+        messageElement.textContent = "Please wait...";
+        messageElement.className = "form-message";
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+
+            const result = await response.json();
+
+            messageElement.textContent =
+                result.message || "Request completed.";
+
+            messageElement.classList.add(
+                response.ok ? "success" : "error"
+            );
+
+            return response.ok;
+
+        } catch (error) {
+            messageElement.textContent =
+                "Unable to contact the server. Check that the application is running.";
+
+            messageElement.classList.add("error");
+            return false;
+        }
+    }
+
+    // COMPANY REGISTRATION
+    companyRegisterForm.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const company = {
+                companyName:
+                    document.getElementById("companyName").value.trim(),
+
+                email:
+                    document.getElementById("companyRegEmail").value.trim(),
+
+                password:
+                    document.getElementById("companyRegPassword").value,
+
+                industry:
+                    document.getElementById("industry").value.trim(),
+
+                website:
+                    document.getElementById("website").value.trim(),
+
+                location:
+                    document.getElementById("location").value.trim()
+            };
+
+            const success = await sendCompanyRequest(
+                "/api/companies/register",
+                company,
+                document.getElementById("registerMessage")
+            );
+
+            if (success) {
+                companyRegisterForm.reset();
+            }
+        }
+    );
+
+    // COMPANY LOGIN AND DASHBOARD REDIRECT
+    companyLoginForm.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
+
+            const credentials = {
+                email:
+                    document.getElementById("companyLoginEmail").value.trim(),
+
+                password:
+                    document.getElementById("companyLoginPassword").value
+            };
+
+            const success = await sendCompanyRequest(
+                "/api/companies/login",
+                credentials,
+                document.getElementById("loginMessage")
+            );
+
+            if (success) {
+                window.location.href = "/company-dashboard.html";
+            }
+        }
+    );
+</script>
+
+</body>
+</html>
